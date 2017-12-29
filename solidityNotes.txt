@@ -74,6 +74,18 @@ using libraries
  
  
 --------------------------------------------------------------
+Debug with remix LS EP8
+debug in stack, debug in memory , debug in storage
+
+--------------------------------------------------------------
+ERC20 tokens LS ep9  
+token delegation and distribution
+--------------------------------------------------------------
+ERC223 tokens LS ep10
+protecting tokens from getting lost and distribute them into contracts
+--------------------------------------------------------------
+Ethereum wallet  LS ep11
+--------------------------------------------------------------
 
 fallback is a function with no name (works like a default function LS EP5)
 
