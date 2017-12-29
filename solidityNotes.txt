@@ -1,0 +1,92 @@
+https://remix.ethereum.org/#optimize=false&version=soljson-v0.4.19+commit.c4cbbb05.js
+
+https://github.com/willitscale/learning-solidity  -> LS
+
+public variables have automatic getters  
+
+private is another access modifier  (LS ep1)
+
+unsigned integer are positive, signed integers can be positive or negative
+
+constant keyword on function declaration makes getters (dont consume gas)
+
+-------------------------------------------------------------
+
+contracts can call other contracts. Either the new keyword is used, or it is required to provide the address of the called contract. The source code of the called contract cannot be deleted
+-------------------------------------------------------------
+inheritance:
+keyword 'is'  for example, parent contract A. creating a new contract:
+contract B is A   -> makes contract B have all functionality of A
+variables/method that are declared as internal (LS ep2) are not passed to B (similar to protected in other programming languages)
+
+constructors:
+constructors are made by making a function with the same name of the contract. Create variables before the constructor (LS ep2). See LS ep2 do see how a child object inherits constructors (6:30)
+--------------------------------------------------------------
+interface:
+TLDR interfaces are classes that cannot be instanciated, only inherited from
+LS ep2  creates constraints in functionality of anything that extends it (check interface java:    https://docs.oracle.com/javase/tutorial/java/concepts/interface.html   )
+
+--------------------------------------------------------------
+LS EP3
+modifiers are done after the constructor. modifiers are like functions, dont return anything. Modifiers are called after the function name, but before the return of the function (see Vlad3_2)
+-------------------------------------------------------------
+creating errors in solidty  LS EP3
+1 throw -> deprecated
+2 require (verifies if passed bool is true). Parameter requirement. 
+3 assert (verifies if passed bool is true). Validating import/function imports at runtime. 
+4 revert (does not require any parameters). should revert the gas cost of the message sent.
+--------------------------------------------------------------
+Imports and libraries LS EP4
+
+libraries -> using ... for 
+IMPORTANT note: when calling an extended type, the parameter to be passed is always the default parameter of the default orientation of said object type LS EP7 8:53 for an example
+--------------------------------------------------------------
+Events LS EP5
+Events are blocks of code, that are called in functions, so that they register in the blockchain. The cost very low gas. events spawn logs in the blockchain. events in getters do nothing, since getters create virtual blocks.
+
+
+payable is a reserved keyword. Makes the contract be able to pay ether. Do not make the constructor payable.
+
+--------------------------------------------------------------
+Data Types LS EP6
+
+strings are an array of uint8
+fixed 8x1 -> 128.0  still not implemented
+enum  https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+address 
+
+array   uint[]   uint[10] fixed length
+push and length are defined, and indexes can be accessed
+
+struct object definition with no functionality. It needs to be instanciated to be used
+
+mapping   https://beginnersbook.com/2013/12/hashmap-in-java-with-example/
+
+--------------------------------------------------------------
+Extended string functionality and bytes  LS ep7
+
+using libraries 
+ concat requires conversion to bites first
+ 
+ bytes require storage type to be defined: storage, memory or stack. stack only lives inside the function and is destroyed afterwards.
+ memory -> relative to that execution of the contract
+ storage -> used for values that you dont want to be cloned ( LS ep7 3:58)
+ 
+ 
+--------------------------------------------------------------
+
+fallback is a function with no name (works like a default function LS EP5)
+
+msg is a special object (reserved keyword)
+
+_  = continue
+
+msg.sender is the person interacting with the contract
+
+10^18 wei = 1 ether
+
+this is a pointer to the current contract; it has the balance property, it is an unsigned integer, it also has an address property
+
+setter should not have returns, it makes no sense (the return value has to be mined and returned). Events should be used to return logs and such
+
+switch is a reserved keyword
