@@ -25,10 +25,10 @@ sudo apt-get install ethereum
 }
 
 1. initialise the block
-geth --datadir "$ethereumTutorials/test1" init "$ethereumTutorials/genesis.json"
+geth --datadir "ETHTUTORIALS/test1" init "ETHTUTORIALS/genesis.json"
 
 2. start the console
-geth --datadir "$ethereumTutorials/chain5" console 2 &gt console.log
+geth --datadir "ETHTUTORIALS/chain5" console 2 &gt console.log
 
 3.create a 2nd node
 geth --datadir "$ethereumTutorials/test2" init "$ethereumTutorials/genesis.json"
