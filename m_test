@@ -74,8 +74,8 @@ geth attach ipc:$ETHTUTORIALS/test2/geth.ipc
 
 8 Key commands from the javascript console
 Personal.newAccount()
-(add password)
-Miner.start(1) - start mining
-eth.blockNumber - current block height
-eth.getBlock(number).miner - miner of block at that number
-eth.getBalance(account address) - current balance of that account
+(add password) 
+miner.start(1)                   - start mining
+eth.blockNumber                  - current block height
+eth.getBlock(number).miner       - miner of block at that number
+eth.getBalance(account address)  - current balance of that account
