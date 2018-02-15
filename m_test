@@ -1,0 +1,54 @@
+Install geth:
+
+https://github.com/ethereum/go-ethereum/wiki/Installing-Geth
+ 
+ ubuntu:
+sudo apt-get install software-properties-common
+sudo add-apt-repository -y ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install ethereum
+
+ 
+ genesis block (JSON format)
+ 
+ {
+    "nonce": "0x0000000000000042",
+    "timestamp": "0x0",
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "extraData": "0x0",
+    "gasLimit": "0x8000000",
+    "difficulty": "0x400",
+    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "coinbase": "0x3333333333333333333333333333333333333333",
+    "alloc": {
+    }
+}
+
+1. initialise the block
+geth --datadir "$ethereumTutorials/test1" init "$ethereumTutorials/genesis.json"
+
+2. start the console
+geth --datadir "$ethereumTutorials/chain5" console 2 &gt console.log
+
+3.create a 2nd node
+geth --datadir "$ethereumTutorials/test2" init "$ethereumTutorials/genesis.json"
+
+4. Start on a different port and specify networkid
+geth --datadir "$ethereumTutorials/test2" --port 30304 --nodiscover --networkid 1234 console 2 &gt console.log
+
+5. get the admin.nodeInfo enode from the second instance and copy it into admin.addPeer  in the first node
+
+6. Restart specifying IPC path
+geth --datadir "$ethereumTutorials/test2" --port 30304 --nodiscover --ipcpath "$ethereumTutorials/test1-a/geth.ipc" --networkid 1234 console 2 &gt console.log
+
+7 run get attach to attach another window to the node using the pic file
+geth attach ipc:$ethereumTutorials/test2/geth.ipc
+
+
+8 Key commands from the javascript console
+Personal.newAccount()
+(add password)
+Miner.start(1) - start mining
+eth.blockNumber - current block height
+eth.getBlock(number).miner - miner of block at that number
+eth.getBalance(account address) - current balance of that account
