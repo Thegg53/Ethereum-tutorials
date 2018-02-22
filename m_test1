@@ -57,6 +57,11 @@ https://ethereum.stackexchange.com/questions/15283/getting-error-on-max-invalid-
 2. start the console
 geth --datadir "$ETHTUTORIALS/test1" console 2> console.log
 
+IPC with 1 node ----------------
+cd test1    ///   ls test1  -> there should be a geth.ipc file there
+geth attach ipc:$ETHTUTORIALS/test1/geth.ipc
+
+
 3.create a 2nd node (same genesis block)
 geth --datadir "$ETHTUTORIALS/test2" init "$ethereumTutorials/genesis.json"
 
@@ -70,11 +75,13 @@ geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --networkid 1234 
 5. get the admin.nodeInfo enode from the second node and copy it into admin.addPeer  in the first node
 admin.addPeer("enode://.....")
 
-IPC ----------------------------------------------------------------------  
-6 Restart  specifying IPC path (ipc allows two consoles to work on the same node)
-geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --ipcpath "$ethereumTutorials/test1-a/geth.ipc" --networkid 1234 console 2> console.log
+IPC with 2 nodes ----------------------------------------------------------------------  
+6 Restart both nodes specifying IPC path (ipc allows two consoles to work on the same node)
+geth --datadir "$ETHTUTORIALS/test1"  --nodiscover --ipcpath "$ethereumTutorials/test1/geth.ipc" --networkid 1234 console 2> console.log
+geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --ipcpath "$ethereumTutorials/test2/geth.ipc" --networkid 1234 console 2> console.log
 
 7 run get attach to attach another window to the node using the ipc file (ipc allows two consoles to work on the same node)
+geth attach ipc:$ETHTUTORIALS/test1/geth.ipc
 geth attach ipc:$ETHTUTORIALS/test2/geth.ipc
 
 USEFUL COMMANDS -----------------------------------------------------------
