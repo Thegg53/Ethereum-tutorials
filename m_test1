@@ -57,21 +57,27 @@ https://ethereum.stackexchange.com/questions/15283/getting-error-on-max-invalid-
 2. start the console
 geth --datadir "$ETHTUTORIALS/test1" console 2> console.log
 
-3.create a 2nd node
+3.create a 2nd node (same genesis block)
 geth --datadir "$ETHTUTORIALS/test2" init "$ethereumTutorials/genesis.json"
 
-4. Start on a different port and specify networkid
+
+4.
+4a) restart the 1st node, specifying the network id 
+gethh --datadir "$ETHTUTORIALS/test1" --networkid 1234 console 2> console.log
+4b) Start the 2nd on a different port and specify networkid  (nodiscover prevents accidental connections)
 geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --networkid 1234 console 2> console.log
 
-5. get the admin.nodeInfo enode from the second instance and copy it into admin.addPeer  in the first node
+5. get the admin.nodeInfo enode from the second node and copy it into admin.addPeer  in the first node
+admin.addPeer("enode://.....")
 
-6. Restart specifying IPC path
+IPC ----------------------------------------------------------------------  
+6 Restart  specifying IPC path (ipc allows two consoles to work on the same node)
 geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --ipcpath "$ethereumTutorials/test1-a/geth.ipc" --networkid 1234 console 2> console.log
 
-7 run get attach to attach another window to the node using the pic file
+7 run get attach to attach another window to the node using the ipc file (ipc allows two consoles to work on the same node)
 geth attach ipc:$ETHTUTORIALS/test2/geth.ipc
 
-
+USEFUL COMMANDS -----------------------------------------------------------
 8 Key commands from the javascript console
 Personal.newAccount()
 (add password) 
