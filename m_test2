@@ -1,0 +1,32 @@
+https://remix.ethereum.org/   
+
+In the run tab, the environment can be set to web3Provider
+
+go to  http://localhost:8545
+
+Make sure geth is started
+geth --datadir "(dir)" --nodiscover --rpc --rpcport "8545" --rpccorsdomain "*" console 2 &gt console.log
+
+Ensure the account is unlocked
+personal.unlockAccount(eth.accounts[0])
+
+pragma solidity ^0.4.0;
+contract greeter {
+    
+    string greeting;
+    
+    function greeter(string _greeting) public {
+        
+        greeting = _greeting;
+        
+    }
+    
+    function greet() constant returns (string){
+        return greeting;
+    }
+   
+    
+function calculateProof(string document) constant returns (bytes32) {
+return sha256(document);
+}
+}
