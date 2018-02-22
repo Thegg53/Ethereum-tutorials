@@ -10,7 +10,7 @@ In the "Run" tab, the environment can be set to web3Provider
 go to  http://localhost:8545
 
 Make sure geth is started
-geth --datadir "(dir)" --nodiscover --rpc --rpcport "8545" --rpccorsdomain "*" console 2 &gt console.log
+geth --datadir "$ETHTUTORIALS/test1" --nodiscover --rpc --rpcport "8545" --rpccorsdomain "*" console 2> console.log
 
 Ensure the account is unlocked
 personal.unlockAccount(eth.accounts[0])
