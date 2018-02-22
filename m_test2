@@ -1,6 +1,11 @@
 https://remix.ethereum.org/   
 
-In the run tab, the environment can be set to web3Provider
+
+https://github.com/ethereum/browser-solidity/tree/gh-pages
+See https://github.com/ethereum/browser-solidity/ for details. To use an offline copy, download remix-7013ed1.zip
+
+
+In the "Run" tab, the environment can be set to web3Provider
 
 go to  http://localhost:8545
 
