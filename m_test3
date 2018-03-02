@@ -1,0 +1,12 @@
+*********************************
+var abi = (paste abifrom remix)
+*********************************
+copy the hash including " 0x...." 
+
+var address = "(paste the address here)"
+************************
+
+var myContract = eth.contract(abi).at(address)
+***********************
+eth.defaultAccount=eth.accounts[0]
+ Otherwise WRITE operation's won't work
