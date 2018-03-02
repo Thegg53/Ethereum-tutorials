@@ -1,1 +1,152 @@
+Install geth:
 
+https://github.com/ethereum/go-ethereum/wiki/Installing-Geth
+ 
+ ubuntu:
+sudo apt-get install software-properties-common
+sudo add-apt-repository -y ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install ethereum
+
+
+Create an environment variable with the path of the working folder:
+sudo -H gedit /etc/environment
+VARNAME="my value"
+ETHTUTORIALS="/home/grm/ethereumTutorials"
+
+ 
+ genesis block (JSON format)
+
+ {
+    "nonce": "0x0000000000000042",
+    "timestamp": "0x0",
+    "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "extraData": "0x00",
+    "gasLimit": "0x8000000",
+    "difficulty": "0x400",
+    "mixhash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "coinbase": "0x3333333333333333333333333333333333333333",
+    "alloc": {
+    },
+    "config": {}
+}
+
+ other example: https://github.com/ethereum/go-ethereum/wiki/Private-network
+{
+    "config": {
+        "chainId": 15,
+        "homesteadBlock": 0,
+        "eip155Block": 0,
+        "eip158Block": 0
+    },
+    "difficulty": "200",
+    "gasLimit": "2100000",
+    "alloc": {
+        "7df9a875a174b3bc565e6424a0050ebc1b2d1d82": { "balance": "300000" },
+        "f41c74c9ae680c1aa78f42e5647a62f353b7bdde": { "balance": "400000" }
+    }
+}
+
+
+
+1. initialise the block
+geth --datadir "$ETHTUTORIALS/test1" init "$ETHTUTORIALS/genesis.json"
+
+https://ethereum.stackexchange.com/questions/15283/getting-error-on-max-invalid-genesis-file-hex-string-has-odd-length
+
+2. start the console
+geth --datadir "$ETHTUTORIALS/test1" console 2> console.log
+
+IPC with 1 node ----------------
+cd test1    ///   ls test1  -> there should be a geth.ipc file there
+geth attach ipc:$ETHTUTORIALS/test1/geth.ipc
+
+
+3.create a 2nd node (same genesis block)
+geth --datadir "$ETHTUTORIALS/test2" init "$ethereumTutorials/genesis.json"
+
+
+4.
+4a) restart the 1st node, specifying the network id 
+gethh --datadir "$ETHTUTORIALS/test1" --networkid 1234 console 2> console.log
+4b) Start the 2nd on a different port and specify networkid  (nodiscover prevents accidental connections)
+geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --networkid 1234 console 2> console.log
+
+5. get the admin.nodeInfo enode from the second node and copy it into admin.addPeer  in the first node
+admin.addPeer("enode://.....")
+
+IPC with 2 nodes ----------------------------------------------------------------------  
+6 Restart both nodes specifying IPC path (ipc allows two consoles to work on the same node)
+geth --datadir "$ETHTUTORIALS/test1"  --nodiscover --ipcpath "$ethereumTutorials/test1/geth.ipc" --networkid 1234 console 2> console.log
+geth --datadir "$ETHTUTORIALS/test2" --port 30304 --nodiscover --ipcpath "$ethereumTutorials/test2/geth.ipc" --networkid 1234 console 2> console.log
+
+7 run get attach to attach another window to the node using the ipc file (ipc allows two consoles to work on the same node)
+geth attach ipc:$ETHTUTORIALS/test1/geth.ipc
+geth attach ipc:$ETHTUTORIALS/test2/geth.ipc
+
+USEFUL COMMANDS -----------------------------------------------------------
+8 Key commands from the javascript console
+Personal.newAccount()
+(add password) 
+miner.start(1)                   - start mining
+eth.blockNumber                  - current block height
+eth.getBlock(number).miner       - miner of block at that number
+eth.getBalance(account address)  - current balance of that account
+
+
+_________________________________________________________________________________
+
+https://remix.ethereum.org/   
+
+
+https://github.com/ethereum/browser-solidity/tree/gh-pages
+See https://github.com/ethereum/browser-solidity/ for details. To use an offline copy, download remix-7013ed1.zip
+
+
+In the "Run" tab, the environment can be set to web3Provider
+
+go to  http://localhost:8545
+
+Make sure geth is started
+geth --datadir "$ETHTUTORIALS/test1" --nodiscover --rpc --rpcport "8545" --rpccorsdomain "*" console 2> console.log
+
+Ensure the account is unlocked
+personal.unlockAccount(eth.accounts[0])
+
+pragma solidity ^0.4.0;
+contract greeter {
+    
+    string greeting;
+    
+    function greeter(string _greeting) public {
+        greeting = _greeting;
+    }
+    
+    function setGreeting(string _greeting) public {
+        greeting = _greeting;
+    }
+    
+    function greet() constant returns (string){
+        return greeting;
+    }
+    
+    function calculateProof(string document) constant returns (bytes32) {
+        return sha256(document);
+    }
+    
+}
+
+
+_______________________________________________________________
+
+var abi = (paste abifrom remix)
+*********************************
+copy the hash including " 0x...." 
+
+var address = "(paste the address here)"
+************************
+
+var myContract = eth.contract(abi).at(address)
+***********************
+eth.defaultAccount=eth.accounts[0]
+ Otherwise WRITE operation's won't work
